@@ -1,0 +1,9 @@
+{
+  "10%": {"lower_limit": 0, "upper_limit": 22000},
+  "12%": {"lower_limit": 22000, "upper_limit": 89450},
+  "22%": {"lower_limit": 89450, "upper_limit": 190750},
+  "24%": {"lower_limit": 190750, "upper_limit": 364200},
+  "32%": {"lower_limit": 364200, "upper_limit": 462500},
+  "35%": {"lower_limit": 462500, "upper_limit": 693750},
+  "37%": {"lower_limit": 693750, "upper_limit": null}
+}

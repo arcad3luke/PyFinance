@@ -81,6 +81,15 @@ def calculate_deductions(weekly_pay):
 
     return weekly_pay
 
+def calculate_401k_contribution(weekly_pay):
+    percentage_cut = float(input("Enter 401k contribution percentage (0-100): "))
+    if 0 <= percentage_cut <= 100:
+        weekly_pay -= weekly_pay * (percentage_cut / 100)
+    else:
+        print("Invalid percentage. 401k contribution not applied.")
+
+    return weekly_pay
+
 def main():
     type_of_pay = input("Do you get paid hourly or salary? (Enter hourly or salary)")
     if type_of_pay == "hourly":
@@ -89,6 +98,7 @@ def main():
         weekly_pay = federal_tax(weekly_pay)
         weekly_pay = state_tax(weekly_pay, user_state)
         weekly_pay = calculate_deductions(weekly_pay)
+        weekly_pay = calculate_401k_contribution(weekly_pay)
 
         net_pay = weekly_pay
         print(f"NET PAY: {net_pay}")

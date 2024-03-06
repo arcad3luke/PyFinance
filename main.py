@@ -20,7 +20,17 @@ def hourly():
         return hourly()
     else:
         print("Great! Let's continue!")
-        return annual_gross, weekly_pay
+        return round(annual_gross, 2), round(weekly_pay, 2)
+
+def salary():
+    annual_salary = float(input("Enter Annual Salary: "))
+    weekly_pay = annual_salary / 52
+    confirm = input(f"Based on your responses: your weekly pay is: {weekly_pay}, and your yearly gross pay is: {annual_salary}. Is this correct? (y/n)")
+    if confirm == "n":
+        return salary()
+    else:
+        print("Great! Let's continue!")
+        return round(annual_salary, 2), round(weekly_pay, 2)
 
 def federal_tax(weekly_pay):
     try:
@@ -40,7 +50,7 @@ def federal_tax(weekly_pay):
         if lower_limit <= weekly_pay <= upper_limit:
             weekly_pay -= weekly_pay * (float(rate.strip('%')) / 100)
 
-    return weekly_pay
+    return round(weekly_pay, 2)
 
 def state_tax(weekly_pay, user_state):
     try:
@@ -71,7 +81,7 @@ def state_tax(weekly_pay, user_state):
         print("Error: 'state_rates.csv' not found.")
         return
 
-    return weekly_pay
+    return round(weekly_pay, 2)
 
 def calculate_deductions(weekly_pay):
     pre_tax_deductions = float(input("Enter total pre-tax deductions: "))
@@ -79,7 +89,7 @@ def calculate_deductions(weekly_pay):
     weekly_pay -= pre_tax_deductions
     weekly_pay -= post_tax_deductions
 
-    return weekly_pay
+    return round(weekly_pay, 2)
 
 def calculate_401k_contribution(weekly_pay):
     percentage_cut = float(input("Enter 401k contribution percentage (0-100): "))
@@ -88,7 +98,7 @@ def calculate_401k_contribution(weekly_pay):
     else:
         print("Invalid percentage. 401k contribution not applied.")
 
-    return weekly_pay
+    return round(weekly_pay, 2)
 
 def main():
     type_of_pay = input("Do you get paid hourly or salary? (Enter hourly or salary)")
@@ -103,8 +113,19 @@ def main():
         net_pay = weekly_pay
         print(f"NET PAY: {net_pay}")
 
+    elif type_of_pay == "salary":
+        user_state = input("Enter your state name: ")
+        annual_gross, weekly_pay = salary()
+        weekly_pay = federal_tax(weekly_pay)
+        weekly_pay = state_tax(weekly_pay, user_state)
+        weekly_pay = calculate_deductions(weekly_pay)
+        weekly_pay = calculate_401k_contribution(weekly_pay)
+
+        net_pay = weekly_pay
+        print(f"NET PAY: {net_pay}")
+
     else:
-        pass
+        print("Invalid input. Please enter 'hourly' or 'salary'.")
 
 if __name__ == '__main__':
     main()
